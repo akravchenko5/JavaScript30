@@ -1,46 +1,67 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Console Tricks!</title>
-</head>
-<body>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Console Tricks!</title>
+  </head>
+  <body>
+    <p onClick="makeGreen()">×BREAK×DOWN×</p>
+    <!-- prettier-ignore -->
+    <script>
+      const dogs = [
+        { name: 'Snickers', age: 2 },
+        { name: 'hugo', age: 8 },
+      ];
 
-  <p onClick="makeGreen()">×BREAK×DOWN×</p>
+      function makeGreen() {
+        // go to developer tools and on the element -> break on -> attribute modification
+        const p = document.querySelector('p');
+        p.style.color = '#BADA55';
+        p.style.fontSize = '50px';
+      }
 
-  <script>
-    const dogs = [{ name: 'Snickers', age: 2 }, { name: 'hugo', age: 8 }];
-
-    function makeGreen() {
+      // Regular
+      console.log('hello');
+      // Interpolated
+      console.log('hello i am a %s string', '💩');
+      // Styled
+      console.log('%c hello im a %s string', 'color:red; font-size:50px', '💩');
+      // warning!
+      console.warn('oh nooo');
+      // Error :|
+      console.error('fuck');
+      // Info
+      console.info('yellow');
+      // Testing
       const p = document.querySelector('p');
-      p.style.color = '#BADA55';
-      p.style.fontSize = '50px';
-    }
-
-    // Regular
-
-    // Interpolated
-
-    // Styled
-
-    // warning!
-
-    // Error :|
-
-    // Info
-
-    // Testing
-
-    // clearing
-
-    // Viewing DOM Elements
-
-    // Grouping together
-
-    // counting
-
-    // timing
-
+      console.assert(p.classList.contains('ouch'), "that's false");
+      // clearing
+      // console.clear();
+      // Viewing DOM Elements
+      console.dir(p);
+      // Grouping together
+      dogs.forEach(dog => {
+        console.groupCollapsed(`${dog.name}`);
+        console.log(`${dog.name}`);
+        console.groupEnd(`${dog.name}`);
+      });
+      // counting
+      console.count('wes');
+      console.count('wes');
+      console.count('tos');
+      console.count('wes');
+      console.count('tos');
+      console.count('wes');
+      console.count('tos');
+      console.count('tos');
+      // timing
+      console.time('fetching data');
+fetch('https://api.github.com/users/akravchenko5')
+  .then(data => data.json())
+  .then(data => {
+          console.timeEnd('fetching data');
+          console.log(data);
+  });
   </script>
-</body>
+  </body>
 </html>
