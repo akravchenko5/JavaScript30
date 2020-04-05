@@ -1,56 +1,70 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>JS Reference VS Copy</title>
-</head>
-<body>
+  <head>
+    <meta charset="UTF-8" />
+    <title>JS Reference VS Copy</title>
+  </head>
+  <body>
+    <!-- prettier-ignore -->
+    <script>
+      // start with strings, numbers and booleans
+      let age = 100;
+      const age2 = age;
+      console.log(age, age2); // 100, 100
+      age = 200;
+      console.log(age, age2); // 200, 100
 
-  <script>
-    // start with strings, numbers and booleans
+      let name = 'wes';
+      const name2 = name;
+      console.log(name, name2); // wes, wes
+      name = 'weswes';
+      console.log(name, name2); // weswes, wes
 
-    // Let's say we have an array
-    const players = ['Wes', 'Sarah', 'Ryan', 'Poppy'];
+      // Let's say we have an array
+      const players = ['Wes', 'Sarah', 'Ryan', 'Poppy'];
+      const teams = players;
+      console.log(players, teams); // ['Wes', 'Sarah', 'Ryan', 'Poppy'] ['Wes', 'Sarah', 'Ryan', 'Poppy']
+      teams[3] = 'Lux';
+      console.log(players, teams); // ['Wes', 'Sarah', 'Ryan', 'Lux'] ['Wes', 'Sarah', 'Ryan', 'lux']
 
-    // and we want to make a copy of it.
+      const team2 = players.slice(); // fast way to copy arr, slice returns arr
+      const team3 = [].concat(players); // another way to copy
+      const team4 = [...players]; // ES6 method
+      const team5 = Array.from(players); // another method
+      
+      // with Objects
+      const person = {
+        name: 'Wes Bos',
+        age: 80,
+      };
 
-    // You might think we can just do something like this:
-
-    // however what happens when we update that array?
-
-    // now here is the problem!
-
-    // oh no - we have edited the original array too!
-
-    // Why? It's because that is an array reference, not an array copy. They both point to the same array!
-
-    // So, how do we fix this? We take a copy instead!
-
-    // one way
-
-    // or create a new array and concat the old one in
-
-    // or use the new ES6 Spread
-
-    // now when we update it, the original one isn't changed
-
-    // The same thing goes for objects, let's say we have a person object
-
-    // with Objects
-    const person = {
-      name: 'Wes Bos',
-      age: 80
-    };
-
-    // and think we make a copy:
-
-    // how do we take a copy instead?
-
-    // We will hopefully soon see the object ...spread
-
-    // Things to note - this is only 1 level deep - both for Arrays and Objects. lodash has a cloneDeep method, but you should think twice before using it.
-
-  </script>
-
-</body>
+      // and think we make a copy:
+      const captain = person;
+      captain.age = 99;
+      console.log(person.age); // 99
+      // how do we take a copy instead?
+      const captain2 = Object.assign({}, person, { number: 99 });
+      // We will hopefully soon see the object ...spread
+      const captain3 = { ...captain, number: 100 };
+      console.log(captain3);
+      // Things to note - this is only 1 level deep - both for Arrays and Objects. lodash has a cloneDeep method, but you should think twice before using it.
+      const wes = {
+        name: 'wes',
+        age: 100,
+        social: {
+          twitter: '@webos',
+          facebook: 'wesbos.dev',
+        },
+      };
+      console.clear();
+      console.log(wes);
+      const wes2 = { ...wes };
+      wes2.social.twitter = '@myTwitter';
+      console.log(wes.social.twitter, wes2.social.twitter); // @myTwitter @myTwitter,  spread of assign works only for one level
+      
+      const wes3 = JSON.parse(JSON.stringify(wes)); // creates object with multilevel
+      wes3.social.twitter = '@myJsonTwitter';
+      console.log(wes.social.twitter, wes2.social.twitter, wes3.social.twitter); // @myTwitter @myTwitter @ @myJsonTwitter
+     </script>
+  </body>
 </html>
